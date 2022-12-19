@@ -1,6 +1,6 @@
 # otel-grpc-poc
 
-Project Setup Guide:
+## Project Setup Guide:
 
 ```bash
 ## Install sdkman for installing java
@@ -41,3 +41,17 @@ Attached in .run are the configurations to debug locally as well as to start a d
 These should get loaded in IntelliJ IDE
 
 ![Screenshot 2022-12-19 at 10.33.59 PM.png](Screenshot%202022-12-19%20at%2010.33.59%20PM.png)
+
+
+## Project Cleanup Guide
+
+```bash
+## Remove Istio Configuration
+kubectl delete -f src/main/kubernetes
+
+## Remove istio setup
+istioctl uninstall -y --purge
+
+## Remove namespace
+kubectl delete namespace grpc-istio
+```
