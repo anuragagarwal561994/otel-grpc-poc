@@ -12,6 +12,14 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jib.resource.folder>${project.basedir}/src/main/jib</jib.resource.folder>
+        <opentelemetry.agent.base.path>/observability</opentelemetry.agent.base.path>
+        <opentelemetry.agent.path>${opentelemetry.agent.base.path}/opentelemetry-javaagent.jar</opentelemetry.agent.path>
+        <opentelemetry.agent.output.file>${jib.resource.folder}/${opentelemetry.agent.path}</opentelemetry.agent.output.file>
+        <opentelemtry.agent.version>1.21.0</opentelemtry.agent.version>
+        <opentelemetry.agent.download.url>
+            https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${opentelemtry.agent.version}/opentelemetry-javaagent.jar
+        </opentelemetry.agent.download.url>
         <io.grpc.version>1.51.1</io.grpc.version>
         <protobuf.version>3.21.11</protobuf.version>
         <guava.version>31.1-jre</guava.version>
@@ -66,7 +74,7 @@
                                 <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
                                 <jvmFlag>-Dcatalina.base=/app</jvmFlag>
                                 <jvmFlag>-XX:+ClassRelationshipVerifier</jvmFlag>
-                                <jvmFlag>-javaagent:/observability/opentelemetry-javaagent.jar</jvmFlag>
+                                <jvmFlag>-javaagent:${opentelemetry.agent.path}</jvmFlag>
                                 <jvmFlag>-Dotel.javaagent.configuration-file=/observability/otel.properties</jvmFlag>
                             </jvmFlags>
                         </container>
@@ -82,6 +90,29 @@
             </extension>
         </extensions>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>download-opentelemetry</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${jib.resource.folder}/${opentelemetry.agent.base.path}"/>
+                                <get skipexisting="true"
+                                     src="${opentelemetry.agent.download.url}"
+                                     dest="${opentelemetry.agent.output.file}"
+                                />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>

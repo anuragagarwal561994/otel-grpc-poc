@@ -2,6 +2,7 @@
   <configuration default="false" name="IPServiceGateway" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="org.example.client.IPServiceGateway" />
     <module name="otel-grpc-poc" />
+    <option name="VM_PARAMETERS" value="-javaagent:src/main/jib/observability/opentelemetry-javaagent.jar" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="org.example.client.*" />
