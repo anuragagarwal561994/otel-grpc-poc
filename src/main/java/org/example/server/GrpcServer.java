@@ -1,8 +1,7 @@
 package org.example.server;
 
-import io.grpc.InsecureServerCredentials;
+import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import io.grpc.xds.XdsServerBuilder;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.ipservice.IPServiceGrpc;
@@ -13,8 +12,7 @@ import org.example.service.FakeIpResponseGenerator;
 public class GrpcServer {
     public static void main(String[] args) throws IOException, InterruptedException {
         int port = 9090;
-        var credentials = InsecureServerCredentials.create();
-        var serverBuilder = XdsServerBuilder.forPort(port, credentials);
+        var serverBuilder = ServerBuilder.forPort(port);
         serverBuilder.addService(new IPServiceGrpcImpl());
         var grpcServer = serverBuilder.build();
         grpcServer.start();
