@@ -11,6 +11,6 @@ public interface GatewayConfig extends Config {
     @ConverterClass(DurationConverter.class)
     Duration requestTimeout();
 
-    @DefaultValue("localhost:9090")
+    @DefaultValue("${GRPC_TARGET_HOST}")
     String grpcTarget();
 }

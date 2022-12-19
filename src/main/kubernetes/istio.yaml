@@ -1,0 +1,54 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: grpc-client-ds
+  namespace: grpc-istio
+spec:
+  host: grpc-client.grpc-istio.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: grpc-peer-authentication
+  namespace: grpc-istio
+spec:
+  mtls:
+    mode: DISABLE
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: grpc-client-vs
+  namespace: grpc-istio
+spec:
+  hosts:
+  - '*'
+  gateways:
+  - grpc-client-internal-gateway
+  http:
+  - route:
+    - destination:
+        host: grpc-client
+        port:
+          number: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: grpc-client-internal-gateway
+  namespace: grpc-istio
+spec:
+  servers:
+  - port:
+      number: 80
+      protocol: HTTP
+      name: '8080'
+    hosts:
+    - '*'
+  selector:
+    istio: ingressgateway
+

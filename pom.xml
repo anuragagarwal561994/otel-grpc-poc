@@ -76,6 +76,7 @@
                                 <jvmFlag>-XX:+ClassRelationshipVerifier</jvmFlag>
                                 <jvmFlag>-javaagent:${opentelemetry.agent.path}</jvmFlag>
                                 <jvmFlag>-Dotel.javaagent.configuration-file=${opentelemetry.agent.base.path}/otel.properties</jvmFlag>
+                                <jvmFlag>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005</jvmFlag>
                             </jvmFlags>
                         </container>
                     </configuration>

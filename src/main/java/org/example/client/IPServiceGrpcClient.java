@@ -19,7 +19,7 @@ class IPServiceGrpcClient {
     }
 
     public static IPServiceGrpcClient create() {
-        var config = ConfigCache.getOrCreate(GatewayConfig.class);
+        var config = ConfigCache.getOrCreate(GatewayConfig.class, System.getenv());
         var grpcTarget = config.grpcTarget();
         return new IPServiceGrpcClient(grpcTarget);
     }

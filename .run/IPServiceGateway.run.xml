@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="IPServiceGateway" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="GRPC_TARGET_HOST" value="localhost:9090" />
+    </envs>
     <option name="MAIN_CLASS_NAME" value="org.example.client.IPServiceGateway" />
     <module name="otel-grpc-poc" />
     <option name="VM_PARAMETERS" value="-javaagent:src/main/jib/observability/opentelemetry-javaagent.jar -Dotel.javaagent.configuration-file=src/main/jib/observability/otel.properties" />

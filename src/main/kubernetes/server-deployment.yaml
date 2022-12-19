@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grpc-server
+  name: grpc-server
+  namespace: grpc-istio
+spec:
+  selector:
+    matchLabels:
+      app: grpc-server
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: 'true'
+        inject.istio.io/templates: 'grpc-agent'
+        proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'
+      labels:
+        app: grpc-server
+    spec:
+      containers:
+      - image: grpc-test-grpc-server:latest
+        imagePullPolicy: Never
+        name: grpc-server
+        ports:
+        - containerPort: 9090
+          name: app-port
+        - containerPort: 5005
+          name: debug-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: grpc-server
+  name: grpc-server
+  namespace: grpc-istio
+spec:
+  ports:
+  - appProtocol: grpc
+    port: 9090
+    protocol: TCP
+    targetPort: app-port
+    name: app
+  - appProtocol: http
+    port: 5005
+    protocol: TCP
+    targetPort: debug-port
+    name: debugger
+  selector:
+    app: grpc-server
+  type: ClusterIP
