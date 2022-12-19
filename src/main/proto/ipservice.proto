@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package ipservice;
+
+option java_package = "org.example.ipservice";
+
+message Empty {
+}
+
+message IPResponse {
+  string asn = 1;
+  string stateCode = 2;
+  string countryCode = 3;
+  double latitude = 4;
+  double longitude = 5;
+  string city = 6;
+  string dma = 7;
+}
+
+
+service IPService {
+  rpc GetIPInfo(Empty) returns (IPResponse) {}
+}
