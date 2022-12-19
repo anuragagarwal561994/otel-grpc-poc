@@ -13,7 +13,4 @@ public interface GatewayConfig extends Config {
 
     @DefaultValue("localhost:9090")
     String grpcTarget();
-
-    @DefaultValue("http://localhost:9000")
-    String httpTarget();
 }

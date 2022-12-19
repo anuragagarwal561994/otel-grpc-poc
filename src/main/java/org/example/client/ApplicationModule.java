@@ -1,6 +1,5 @@
 package org.example.client;
 
-import com.google.gson.Gson;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
@@ -22,12 +21,6 @@ public class ApplicationModule extends ServletModule {
     @Singleton
     private IPServiceGrpcClient grpcClient() {
         return IPServiceGrpcClient.create();
-    }
-
-    @Provides
-    @Singleton
-    private Gson gson() {
-        return new Gson();
     }
 
     @Provides
