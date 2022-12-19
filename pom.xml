@@ -75,7 +75,7 @@
                                 <jvmFlag>-Dcatalina.base=/app</jvmFlag>
                                 <jvmFlag>-XX:+ClassRelationshipVerifier</jvmFlag>
                                 <jvmFlag>-javaagent:${opentelemetry.agent.path}</jvmFlag>
-                                <jvmFlag>-Dotel.javaagent.configuration-file=/observability/otel.properties</jvmFlag>
+                                <jvmFlag>-Dotel.javaagent.configuration-file=${opentelemetry.agent.base.path}/otel.properties</jvmFlag>
                             </jvmFlags>
                         </container>
                     </configuration>
